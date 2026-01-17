@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Camisas ⚽</title>
+<link rel="icon" type="image/png" href="imagens/manto.png">
+
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #0f2027, #000);
+  color: #fff;
+  text-align: center;
+}
+
+h1 { margin: 20px 0; }
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* CARDS */
+.card, .shirt {
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  animation: fadeIn 0.4s ease;
+}
+
+.card:hover, .shirt:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.18);
+}
+
+/* ÍCONES */
+.card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* CAMISAS + ZOOM */
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.zoom-container img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.zoom-container:hover img {
+  transform: scale(2);
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.back {
+  grid-column: 1 / -1;
+  text-align: left;
+  color: #00ffcc;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #00ffcc;
+  font-weight: bold;
+  cursor: pointer;
+}
+.header-global {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.logo-global {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header-global">
+  <img src="imagens/manto2.png" alt="Logo" class="logo-global">
+  <h1 id="title">Escolha o País</h1>
+</header>
+
+<div class="container" id="content"></div>
+
+
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <span class="close">&times;</span>
+  <img id="modalImg">
+</div>
+
+<script>
+
+const data = {
+   "Brasil": {
+    img: "imagens/paises/brasil.png",
+    ligas: {
+      "Brasileirão": {
+        img: "imagens/ligas/brasileirao.png",
+        times: {
+          "Flamengo": {
+            img: "imagens/times/flamengo.png",
+            camisas: [
+              { nome: "Flamengo Home 2025 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/fla_home_24.jpg" },
+              { nome: "Flamengo Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/fla_away_24.jpg" },
+              { nome: "Flamengo Dourada (Torcedor)", preco: "R$ 130", img: "imagens/camisas/fla_dourada.jpg" },
+              { nome: "Flamengo 2009 (Retrô)", preco: "R$ 150", img: "imagens/camisas/fla_2009.jpg" }
+            ]
+          },
+          "Corinthians": {
+            img: "imagens/times/corinthians.png",
+            camisas: [
+              { nome: "Corinthians Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cor-home2025.jpg" },
+              { nome: "Corinthians Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cor-away2025.jpg" },
+              { nome: "Corinthians Total 90 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cor-total90.jpg" },
+              { nome: "Corinthians Treino", preco: "R$ 100", img: "imagens/camisas/cor-treino.jpg" },
+              { nome: "Corinthians All Black (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cor-allblack.jpg" },
+              { nome: "Corinthians São Jorge (Retrô)", preco: "R$ 150", img: "imagens/camisas/cor-jorge.jpg" },
+               { nome: "Corinthians 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/cor-2012.jpg" }
+            ]
+          },
+          "Palmeiras": {
+            img: "imagens/times/palmeiras.png",
+            camisas: [
+              { nome: "Palmeiras Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/pal-home25.jpg" },
+              { nome: "Palmeiras Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/pal-away25.jpg" },
+              { nome: "Palmeiras Avanti Palestra (Torcedor)", preco: "R$ 140", img: "imagens/camisas/pal-avanti2025.jpg" },
+              { nome: "Palmeiras KidSuper (Torcedor)", preco: "R$ 100", img: "imagens/camisas/pal-kidsuper.jpg" }
+            ]
+          }, "Santos": {
+            img: "imagens/times/santos.png",
+            camisas: [
+              { nome: "Santos  Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/san-home25.jpg" },
+              { nome: "Santos  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/san-away25.jpg" },
+              { nome: "Santos  Azul (Torcedor)", preco: "R$ 100", img: "imagens/camisas/san-azul.jpg" },
+              { nome: "Santos  CBJR (Torcedor)", preco: "R$ 100", img: "imagens/camisas/san-cbjr.jpg" },
+              { nome: "Santos  Home 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-b2012.jpg" },
+              { nome: "Santos  Away 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-a2012.jpg" }
+            ]
+          },
+          "São Paulo": {
+            img: "imagens/times/sp.png",
+            camisas: [
+              { nome: "São Paulo  Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/sp-home25.jpg" },
+              { nome: "São Paulo  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/sp-away25.jpg" },
+              { nome: "São Paulo  Preta (Torcedor)", preco: "R$ 100", img: "imagens/camisas/sp-preta.jpg" },
+              { nome: "São Paulo  Home 1999(Retrô)", preco: "R$ 150", img: "imagens/camisas/sp-rto.jpg" },
+             
+            ]
+          },
+          
+          "Fluminense": {
+            img: "imagens/times/flu.png",
+            camisas: [
+              { nome: "Fluminense  Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/flu-home25.jpg" },
+              { nome: "Fluminense  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/flu-away25.jpg" },
+            ]
+          }, 
+          "Grêmio": {
+            img: "imagens/times/gremio.png",
+            camisas: [
+              { nome: "Grêmio Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/gremio-home25.jpg" },
+              { nome: "Grêmio  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/gremio-away25.jpg" }
+            ]
+          },
+           "Vasco": {
+            img: "imagens/times/vasco.png",
+            camisas: [
+              { nome: "Vasco Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/vasco-home25.jpg" }
+            
+            ]
+          },
+           "Botafogo": {
+            img: "imagens/times/botafogo.png",
+            camisas: [
+              { nome: "Botafogo Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bota-home25.jpg" },
+              { nome: "Botafogo  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bota-away25.jpg" },
+               { nome: "Botafogo  Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bota-third25.jpg" }
+            ]
+          },
+          "Cruzeiro": {
+            img: "imagens/times/cruzeiro.png",
+            camisas: [
+              { nome: "Cruzeiro Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cruzeiro-home25.jpg" },
+              { nome: "Cruzeiro  Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/cruzeiro-away25.jpg" },
+               { nome: "Cruzeiro  Third 2025 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/cruzeiro-third25.jpg" }
+            ]
+          },
+          "Atletico MG": {
+            img: "imagens/times/galo.png",
+            camisas: [
+              { nome: "Atletico MG Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/galo-home25.jpg" },
+              { nome: "Atletico MG Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/galo-away25.jpg" }
+              
+            ]
+          },
+           "Bahia": {
+            img: "imagens/times/bahia.png",
+            camisas: [
+              { nome: "Bahia Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bahia-home25.jpg" },
+              { nome: "Bahia Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bahia-away25.jpg" }
+              
+            ]
+          }
+
+        }
+      },
+
+      "Seleção Brasileira": {
+        img: "imagens/ligas/cbf.png",
+        times: {
+          "Seleção Brasileira": {
+            img: "imagens/times/cbf.png",
+            camisas: [
+              { nome: "Brasil Home 2025 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/brasil-home25.jpg" },
+              { nome: "Brasil Home 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-home26.jpg" },
+              { nome: "Brasil Away 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-away26.jpg" },
+              { nome: "Brasil Retrô 2019 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/brasil-rto19.jpg" },
+              { nome: "Brasil Total 90 Retrô 2004 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto04.jpg" },
+              { nome: "Brasil  Home Retrô 2002 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto02.jpg" }, 
+              { nome: "Brasil  Home Retrô 1998 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto98.jpg" }, 
+              { nome: "Brasil  Away Retrô 1998 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto982.jpg" },
+              { nome: "Polo Brasil  (Torcedor)", preco: "R$ 100", img: "imagens/camisas/brasil-treino1.jpg" },
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "Inglaterra": {
+    img: "imagens/paises/inglaterra.png",
+    ligas: {
+      "Premier League": {
+        img: "imagens/ligas/premier.png",
+        times: {
+          "Manchester City": {
+            img: "imagens/times/mancity.png",
+            camisas: [
+              { nome: "Manchester City Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/city-home25.jpg" },
+              { nome: "Manchester City Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/city-away25.jpg" },
+              { nome: "Manchester City Home 2013 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/city-rto13.jpg" }
+            ]
+          },
+          "Manchester United": {
+            img: "imagens/times/mu.png",
+            camisas: [
+              { nome: "Manchester United Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/united-home25.jpg" },
+              { nome: "Manchester United Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/united-away25.jpg" },
+              { nome: "Manchester United Home 2007/08 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/united-rto0708.jpg" },
+              { nome: "Manchester United Away 2007/08 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/united-rto0708awy.jpg" }
+            ]
+          }
+          ,
+          "Arsenal": {
+            img: "imagens/times/arsenal.png",
+            camisas: [
+              { nome: "Arsenal Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/arsenal-home25.jpg" },
+              { nome: "Arsenal Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/arsenal-away25.jpg" },
+              
+            ],
+            
+          },
+          "Chelsea": {
+            img: "imagens/times/chelsea.png",
+            camisas: [
+              { nome: "Chelsea Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/chelsea-home25.jpg" },
+              { nome: "Chelsea Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/chelsea-away25.jpg" },
+              { nome: "Chelsea Total 90 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/chelsea-total.jpg" },
+              { nome: "Chelsea Home 11/12 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/chelsea-2012.jpg" },
+              
+            ]
+          },
+           "Tottenham": {
+            img: "imagens/times/spurs.png",
+            camisas: [
+              { nome: "Tottenham Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/spurs-home25.jpg" },
+              { nome: "Tottenham Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/spurs-away25.jpg" },
+              
+            ]
+          },
+           "Liverpool": {
+            img: "imagens/times/liverpool.png",
+            camisas: [
+              { nome: "Liverpool Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/liverpool-home25.jpg" },
+              { nome: "Liverpool Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/liverpool-away25.jpg" },
+              { nome: "Liverpool Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/liverpool-third25.jpg" },
+              { nome: "Liverpool Black 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/liverpool-black25.jpg" }
+
+              
+            ]
+          },
+           "NewCastle United": {
+            img: "imagens/times/new.png",
+            camisas: [
+              { nome: "NewCastle United Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/new-home25.jpg" },
+              { nome: "NewCastle United Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/new-away25.jpg" }
+               
+            ]
+          },
+           "West Ham": {
+            img: "imagens/times/westham.png",
+            camisas: [
+              { nome: "West Ham Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/westham-home25.jpg" },
+              { nome: "West Ham Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/westham-away25.jpg" }
+              ]
+          },
+           "Aston Villa": {
+            img: "imagens/times/aston.png",
+            camisas: [
+              { nome: "Aston Villa Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/aston-home25.jpg" },
+              { nome: "Aston Villa Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/aston-away25.jpg" },
+              ]
+          },
+
+          "Wolverhampton": {
+            img: "imagens/times/wolves.png",
+            camisas: [
+              { nome: "Wolverhampton Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/wolves-home25.jpg" },
+              ]
+          },
+          
+        }
+      }
+    }
+  },
+
+  "Espanha": {
+    img: "imagens/paises/espanha.png",
+    ligas: {
+      "La Liga": {
+        img: "imagens/ligas/laliga.png",
+        times: {
+          "Real Madrid": {
+            img: "imagens/times/realmadrid.png",
+            camisas: [
+              { nome: "Real Madrid Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/real-home25.jpg" },
+              { nome: "Real Madrid Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/real-away25.jpg" },
+              { nome: "Real Madrid Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/real-third25.jpg" },
+              { nome: "Real Madrid Home 05/06 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/real-rto06.jpg" },
+              { nome: "Real Madrid Away 17/18 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/real-rto18.jpg" },
+              { nome: "Real Madrid Third 15/16 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/real-rto16.jpg" },
+              { nome: "Real Madrid Away 15/16 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/real-rto15.jpg" }
+            ]
+          },
+          "Barcelona": {
+            img: "imagens/times/barcelona.png",
+            camisas: [
+              { nome: "Barcelona Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/barca-home25.jpg" },
+              { nome: "Barcelona Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/barca-away25.jpg" },
+              { nome: "Barcelona Special Edition 2025 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/barca-special25.jpg" },
+              { nome: "Barcelona Home 15/16 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto16.jpg" },
+              { nome: "Barcelona Home 14/15 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto15.jpg" },
+              { nome: "Barcelona Away 07/08 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto08.jpg" },
+              { nome: "Barcelona Away 14/15 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto14.jpg" },
+              { nome: "Barcelona Home 05/06 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto05.jpg" }
+            ]
+          },
+          "Atlético De Madrid": {
+            img: "imagens/times/madrid.png",
+            camisas: [
+              { nome: "Atlético De Madrid Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/madrid-home25.jpg" },
+              { nome: "Atlético De Madrid Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/madrid-away25.jpg" },
+              { nome: "Atlético De Madrid Home 2017 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/madrid-rto17.jpg" }
+            ]
+          },
+          
+        }
+      }
+    }
+  },
+
+  "Itália": {
+    img: "imagens/paises/italia.png",
+    ligas: {
+      "Serie A": {
+        img: "imagens/ligas/seriea.png",
+        times: {
+          "Juventus": {
+            img: "imagens/times/juventus.png",
+            camisas: [
+              { nome: "Juventus Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/juve-home25.jpg" },
+              { nome: "Juventus Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/juve-third25.jpg" }
+            ]
+          },
+           "Milan": {
+            img: "imagens/times/milan.png",
+            camisas: [
+              { nome: "Milan Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/milan-home25.jpg" },
+              { nome: "Milan Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/milan-away25.jpg" },
+              { nome: "Milan Home 2007 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/milan-rto0701.jpg" },
+               { nome: "Milan Away 2007 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/milan-rto0702.jpg" }
+
+            ]
+          },
+          "Inter De Milão": {
+            img: "imagens/times/inter.png",
+            camisas: [
+              { nome: "Inter De Milão Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/inter-home25.jpg" },
+              { nome: "Inter De Milão Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/inter-away25.jpg" },
+              { nome: "Inter De Milão Total 90 (Torcedor) ", preco: "R$ 120", img: "imagens/camisas/inter-total.jpg" },
+               { nome: "Inter De Milão Total 90 04/05 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/inter-total90.jpg" }
+
+            ]
+          },
+           "Roma": {
+            img: "imagens/times/roma.png",
+            camisas: [
+              { nome: "Roma Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/roma-home25.jpg" },
+              { nome: "Roma Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/roma-away25.jpg" },
+             
+
+            ]
+          },
+           "Napoli": {
+            img: "imagens/times/napoli.png",
+            camisas: [
+              { nome: "Napoli Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/nap-home25.jpg" },
+              { nome: "Napoli Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/nap-away25.jpg" },
+              { nome: "Napoli Away  Special Edition 2025 (Torcedor)", preco: "R$ 120", img: "imagens/camisas/nap-edt251.jpg" },
+              { nome: "Napoli Away  Special Edition 2025 (Torcedor)", preco: "R$ 120", img: "imagens/camisas/nap-edt252.jpg" },
+             
+
+            ]
+          },
+          "Lazio": {
+            img: "imagens/times/lazio.png",
+            camisas: [
+              { nome: "Lazio Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/laz-home25.jpg" },
+              { nome: "Lazio Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/laz-away25.jpg" },
+              { nome: "Lazio Home  99/00 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/laz-rto00.jpg" },
+              { nome: "Lazio Away  99/00 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/laz-rto99.jpg" },
+             
+
+            ]
+          },
+        }
+      }
+    }
+  },
+
+  "Alemanha": {
+    img: "imagens/paises/alemanha.png",
+    ligas: {
+      "Bundesliga": {
+        img: "imagens/ligas/bundesliga.png",
+        times: {
+          "Bayern München": {
+            img: "imagens/times/bayern.png",
+            camisas: [
+              { nome: "Bayern München Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bayern-home25.jpg" },
+              { nome: "Bayern München Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bayern-away25.jpg" },
+              { nome: "Bayern München Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bayern-third25.jpg" },
+              { nome: "Bayern München Aniversary 125 Years (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/bayern-125.jpg" }
+            
+            ]
+          },
+          "Borussia Dortmund": {
+            img: "imagens/times/bvb.png",
+            camisas: [
+              { nome: "Borussia Dortmund Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bvb-home25.jpg" },
+              { nome: "Borussia Dortmund Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/bvb-away25.jpg" },
+             
+            ]
+          },
+        }
+      }
+    }
+  },
+
+  "França": {
+    img: "imagens/paises/franca.png",
+    ligas: {
+      "Ligue 1": {
+        img: "imagens/ligas/ligue1.png",
+        times: {
+          "PSG": {
+            img: "imagens/times/psg.png",
+            camisas: [
+              { nome: "PSG Home 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/psg-home25.jpg" },
+              { nome: "PSG Away 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/psg-away25.jpg" },
+              { nome: "PSG Total 90 2025/26 (Torcedor)", preco: "R$ 110", img: "imagens/camisas/psg-total.jpg" },
+              { nome: "PSG Away 2024 (Torcedor)", preco: "R$ 110", img: "imagens/camisas/psg-24.jpg" },
+              { nome: "PSG Home 17/18 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/psg-rto18.jpg" },
+
+            ]
+          },
+          "Lyon": {
+            img: "imagens/times/lyon.png",
+            camisas: [
+              { nome: "Lyon Home 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/lyon-home25.jpg" },
+              { nome: "Lyon Away 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/lyon-away25.jpg" },
+
+            ]
+          },
+           "Olympique de Marseille": {
+            img: "imagens/times/marselha.png",
+            camisas: [
+              { nome: "Olympique de Marseille Home 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/marselha-home25.jpg" },
+              { nome: "Olympique de Marseille Away 2025/26 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/marselha-away25.jpg" },
+
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "Holanda": {
+    img: "imagens/paises/holanda.png",
+    ligas: {
+      "Eredivisie": {
+        img: "imagens/ligas/eredivisie.png",
+        times: {
+          "Ajax": {
+            img: "imagens/times/ajax.png",
+            camisas: [
+              { nome: "Ajax Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/ajax-home25.jpg" },
+              { nome: "Ajax Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/ajax-away25.jpg" },
+              { nome: "Ajax Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/ajax-third25.jpg" },
+            ]
+          },
+          "PSV": {
+            img: "imagens/times/psv.png",
+            camisas: [
+              { nome: "PSV Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/psv-home25.jpg" },
+            ]
+          }
+        }
+      }
+    }
+  },
+    "Portugal": {
+    img: "imagens/paises/portugal.png",
+    ligas: {
+      "Liga Portugal": {
+        img: "imagens/ligas/lgportugal.png",
+        times: {
+          "Benfica": {
+            img: "imagens/times/benfica.png",
+            camisas: [
+              { nome: "Benfica Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/benfica-home25.jpg" },
+              { nome: "Benfica Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/benfica-away25.jpg" }
+
+            ]
+          },
+          "Porto": {
+            img: "imagens/times/porto.png",
+            camisas: [
+              { nome: "Porto Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/porto_home25.jpg" },
+              { nome: "Porto Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/porto_away25.jpg" }
+
+            ]
+          },
+
+           "Sporting": {
+            img: "imagens/times/sporting.png",
+            camisas: [
+              { nome: "Sporting Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/sporting-home25.jpg" },
+              { nome: "Sporting Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/sporting-away25.jpg" },
+
+            ]
+          },
+
+        }
+      }
+    }
+  },
+
+  "Arábia Saudita": {
+    img: "imagens/paises/arabia.png",
+    ligas: {
+      "Saudi Pro League": {
+        img: "imagens/ligas/saudi.png",
+        times: {
+          "Al Nassr": {
+            img: "imagens/times/alnassr.png",
+            camisas: [
+              { nome: "Al Nassr Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alnassr-home25.jpg" },
+              { nome: "Al Nassr Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alnassr-away25.jpg" }
+            ]
+          },
+           "Al Hilal": {
+            img: "imagens/times/alhilal.png",
+            camisas: [
+              { nome: "Al Hilal Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alhilal-home25.jpg" },
+              { nome: "Al Hilal Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alhilal-away25.jpg" },
+              { nome: "Al Hilal third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alhilal-third25.jpg" }
+            ]
+          },
+           "Al Ahli": {
+            img: "imagens/times/alahli.png",
+            camisas: [
+              { nome: "Al Ahli Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alahli-home25.jpg" },
+              { nome: "Al Ahli Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/alahli-away25.jpg" },
+             
+            ]
+          },
+        }
+      }
+    }
+  },
+
+  "Estados Unidos": {
+    img: "imagens/paises/eua.png",
+    ligas: {
+      "MLS": {
+        img: "imagens/ligas/mls.png",
+        times: {
+          "Inter Miami": {
+            img: "imagens/times/intermiami.png",
+            camisas: [
+              { nome: "Inter Miami Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/intermiami-home25.jpg" },
+              { nome: "Inter Miami Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/intermiami-away25.jpg" }
+            ]
+          }
+        }
+      }
+    }
+  },
+   "Chile": {
+    img: "imagens/paises/chile.png",
+    ligas: {
+      "Liga de Chile": {
+        img: "imagens/ligas/lgchile.png",
+        times: {
+          "Colo Colo": {
+            img: "imagens/times/colocolo.png",
+            camisas: [
+              { nome: "Colo Colo Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/colocolo-home25.jpg" },
+              { nome: "Colo Colo Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/colocolo-away25.jpg" }
+            ]
+          },
+
+           "Universidade Chile": {
+            img: "imagens/times/U.png",
+            camisas: [
+              { nome: "Universidade Chile Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/U-home25.jpg" },
+              { nome: "Universidade Chile Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/U-away25.jpg" }
+            ]
+          }
+        }
+      }
+    }
+  },
+   "Argentina": {
+    img: "imagens/paises/argentina.png",
+    ligas: {
+      "Liga Argentina": {
+        img: "imagens/ligas/ligaargentina.png",
+        times: {
+          "River Plate": {
+            img: "imagens/times/riverplate.png",
+            camisas: [
+              { nome: "River Plate Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/riverplate-home25.jpg" },
+              { nome: "River Plate Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/riverplate-away25.jpg" },
+              { nome: "River Plate Home 00/01 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/riverplate-rto00.jpg" }
+            ]
+          },
+          "Boca Juniors": {
+            img: "imagens/times/boca.png",
+            camisas: [
+              { nome: "Boca Jrs Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/boca-home25.jpg" },
+              { nome: "Boca Jrs Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/boca-away25.jpg" },
+              { nome: "Boca Jrs Home 07/08 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/boca-rto08.jpg" }
+            ]
+          },
+           "Racing": {
+            img: "imagens/times/racing.png",
+            camisas: [
+              { nome: "Racing Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/racing-away25.jpg" }
+              
+            ]
+          },
+        }
+      }
+    }
+  },
+
+    "Mexico": {
+    img: "imagens/paises/mexico.png",
+    ligas: {
+      "Liga MX": {
+        img: "imagens/ligas/ligamx.png",
+        times: {
+          "América": {
+            img: "imagens/times/america.png",
+            camisas: [
+              { nome: "America Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/america-home25.jpg" },
+              { nome: "America Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/america-away25.jpg" },
+             
+            ]
+          },
+          "Tigres": {
+            img: "imagens/times/tigres.png",
+            camisas: [
+              { nome: "Tigres Home 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/tigres-home25.jpg" },
+              { nome: "Tigres Away 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/tigres-away25.jpg" },
+              { nome: "Tigres Third 2025 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/tigres-third25.jpg" }
+            ]
+          },
+        
+        }
+      }
+    }
+  },
+   "Copa Do Mundo": {
+    img: "imagens/paises/fifa.png",
+    ligas: {
+      "Seleções": {
+        img: "imagens/ligas/copa26.png",
+        times: {
+          "Argentina": {
+            img: "imagens/times/afa.png",
+            camisas: [
+              { nome: "Argentina Home 2026 (Torcedor)", preco: "R$ 109", img: "imagens/camisas/afa-home25.jpg" },
+              { nome: "Argentina Away 2026 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/afa-away25.jpg" },
+              { nome: "Argentina Home 2006 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/afa-rto06.jpg" },
+              { nome: "Argentina Home Special Edition (Torcedor)", preco: "R$ 100", img: "imagens/camisas/afa-special25.jpg" }
+            ]
+          },
+           "Brasil": {
+            img: "imagens/times/cbf.png",
+            camisas: [
+              { nome: "Brasil Home 2025 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/brasil-home25.jpg" },
+              { nome: "Brasil Home 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-home26.jpg" },
+              { nome: "Brasil Away 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-away26.jpg" },
+              { nome: "Brasil Retrô 2019 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/brasil-rto19.jpg" },
+              { nome: "Brasil Total 90 Retrô 2004 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto04.jpg" },
+              { nome: "Brasil  Home Retrô 2002 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto02.jpg" }, 
+              { nome: "Brasil  Home Retrô 1998 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto98.jpg" }, 
+              { nome: "Brasil  Away Retrô 1998 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/brasil-rto982.jpg" },
+              { nome: "Polo Brasil  (Torcedor)", preco: "R$ 100", img: "imagens/camisas/brasil-treino1.jpg" },
+            ]
+          },
+            "Colômbia": {
+            img: "imagens/times/colombia.png",
+            camisas: [
+              { nome: "Colômbia Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/colombia-home25.jpg" },
+              { nome: "Colômbia Away 2026 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/colombia-away25.jpg" },
+              { nome: "Colômbia Special Edition 2026 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/colombia-special25.jpg" },
+              
+            ]
+          },
+
+           "Portugal": {
+            img: "imagens/times/portugal.png",
+            camisas: [
+              { nome: "Portugal Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/portugal-home25.jpg" },
+              { nome: "Portugal Away 2026 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/portugal-away25.jpg" },
+              { nome: "Portugal Special Edition 2026 (Torcedor)", preco: "R$ 100", img: "imagens/camisas/portugal-special25.jpg" },
+              { nome: "Portugal 2016 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/portugal-rto16.jpg" },
+              
+            ]
+          },
+           "Inglaterra": {
+            img: "imagens/times/inglaterra.png",
+            camisas: [
+              { nome: "Inglaterra Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/inglaterra-home25.jpg" },
+              { nome: "Inglaterra 1996 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/inglaterra-rto96.jpg" },
+              
+            ]
+          },
+           "França": {
+            img: "imagens/times/franca.png",
+            camisas: [
+              { nome: "França Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/franca-home25.jpg" },
+              { nome: "França Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/franca-away25.jpg" },
+              { nome: "França Home 1998 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/franca-rto98.jpg" },
+               { nome: "França Away 1998 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/franca-rto982.jpg" },
+              
+            ]
+          },
+           "Noruega": {
+            img: "imagens/times/noruega.png",
+            camisas: [
+              { nome: "Noruega Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/noruega-home25.jpg" },
+              { nome: "Noruega Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/noruega-away25.jpg" },
+              
+            ]
+          },
+          "Holanda": {
+            img: "imagens/times/holanda.png",
+            camisas: [
+              { nome: "Holanda Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/holanda-home25.jpg" },
+              { nome: "Holanda Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/holanda-away25.jpg" },
+              { nome: "Holanda Home Total 90 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/holanda-total1.jpg" },
+               { nome: "Holanda Away Total 90  Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/holanda-total2.jpg" },
+              
+            ]
+          },
+          "Uruguai": {
+            img: "imagens/times/uruguai.png",
+            camisas: [
+              { nome: "Uruguai Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/uruguai-home25.jpg" },
+              { nome: "Uruguai Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/uruguai-away25.jpg" },
+              
+            ]
+          },
+            "Estados Unidos": {
+            img: "imagens/times/eua.png",
+            camisas: [
+              { nome: "Estados Unidos Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/usa-home25.jpg" },
+              
+              
+            ]
+          },
+           "Mexico": {
+            img: "imagens/times/mexico.png",
+            camisas: [
+              { nome: "Mexico Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/mexico-home25.jpg" },
+              { nome: "Mexico Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/mexico-away25.jpg" },
+              
+            ]
+          },
+          "Espanha": {
+            img: "imagens/times/espanha.png",
+            camisas: [
+              { nome: "Espanha Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/espanha-home25.jpg" },
+              { nome: "Espanha Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/espanha-away25.jpg" },
+              { nome: "Espanha Home 2010 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/espanha-20101.jpg" },
+               { nome: "Espanha Away 2010 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/espanha-20102.jpg" },
+              
+            ]
+          },
+           "Coreia do Sul": {
+            img: "imagens/times/coreia.png",
+            camisas: [
+              { nome: "Coreia do Sul Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/coreia-home25.jpg" },
+            ]
+          },
+            "Japão": {
+            img: "imagens/times/japao.png",
+            camisas: [
+              { nome: "Japão Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/jp-home25.jpg" },
+              { nome: "Japão Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/jp-away25.jpg" },
+              { nome: "Japão Away 2006 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/jp-2006.jpg" },
+              
+            ]
+          },
+           "Belgica": {
+            img: "imagens/times/belgica.png",
+            camisas: [
+              { nome: "Bélgica Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/belgica-home25.jpg" },
+              { nome: "Bélgica Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/belgica-away25.jpg" },
+              
+            ]
+          },
+           "Senegal": {
+            img: "imagens/times/senegal.png",
+            camisas: [
+              { nome: "Senegal Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/senegal-home25.jpg" },
+              { nome: "Senegal Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/senegal-away25.jpg" },
+              
+            ]
+          },
+          "Arábia Saudita": {
+            img: "imagens/times/saudita.png",
+            camisas: [
+              { nome: "Arábia Saudita Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/saudita-home25.jpg" },
+            ]
+          },
+           "Alemanha": {
+            img: "imagens/times/alemanha.png",
+            camisas: [
+              { nome: "Alemanha Home 2026 (Torcedor)" , preco: "R$ 100", img: "imagens/camisas/ale-home25.jpg" },
+              { nome: "Alemanha Away 2026 (Torcedor) ", preco: "R$ 100", img: "imagens/camisas/ale-away25.jpg" },
+              { nome: "Alemanha Home 2014 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/ale-20141.jpg" },
+              { nome: "Alemanha Away 2014 Retrô (Torcedor) ", preco: "R$ 150", img: "imagens/camisas/ale-20142.jpg" },
+              
+            ]
+          },
+          
+        }
+      }
+    }
+  }
+};
+
+
+const content = document.getElementById("content");
+const title = document.getElementById("title");
+
+function showPaises() {
+  title.innerText = "Escolha o País";
+  content.innerHTML = "";
+  Object.keys(data).forEach(pais => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `<img src="${data[pais].img}"><h3>${pais}</h3>`;
+    div.onclick = () => showLigas(pais);
+    content.appendChild(div);
+  });
+}
+
+function showLigas(pais) {
+  title.innerText = pais + " – Ligas";
+  content.innerHTML = `<div class="back" onclick="showPaises()">⬅ Voltar</div>`;
+  Object.keys(data[pais].ligas).forEach(liga => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `<img src="${data[pais].ligas[liga].img}"><h3>${liga}</h3>`;
+    div.onclick = () => showTimes(pais, liga);
+    content.appendChild(div);
+  });
+}
+
+function showTimes(pais, liga) {
+  title.innerText = liga + " – Times";
+  content.innerHTML = `<div class="back" onclick="showLigas('${pais}')">⬅ Voltar</div>`;
+  Object.keys(data[pais].ligas[liga].times).forEach(time => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `<img src="${data[pais].ligas[liga].times[time].img}"><h3>${time}</h3>`;
+    div.onclick = () => showCamisas(pais, liga, time);
+    content.appendChild(div);
+  });
+}
+
+function showCamisas(pais, liga, time) {
+  title.innerText = time + " – Camisas";
+  content.innerHTML = `<div class="back" onclick="showTimes('${pais}','${liga}')">⬅ Voltar</div>`;
+  data[pais].ligas[liga].times[time].camisas.forEach(camisa => {
+    const div = document.createElement("div");
+    div.className = "shirt";
+    div.innerHTML = `
+      <div class="zoom-container" onclick="openModal('${camisa.img}')">
+        <img src="${camisa.img}">
+      </div>
+      <h3>${camisa.nome}</h3>
+      <p>${camisa.preco}</p>
+      <button onclick="whatsapp()">Comprar no Instagram</button>
+    `;
+    content.appendChild(div);
+  });
+}
+
+function openModal(img) {
+  document.getElementById("imageModal").style.display = "flex";
+  document.getElementById("modalImg").src = img;
+}
+
+function closeModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
+function whatsapp() {
+  window.open("https://www.instagram.com/mantosagrado00", "_blank");
+}
+
+showPaises();
+</script>
+
+</body>
+</html>
