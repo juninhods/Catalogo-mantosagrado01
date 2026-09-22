@@ -24,10 +24,13 @@ app.use(express.json({ limit: "100kb" }));
    CORS
 ========================================================= */
 
-app.use((req, res, next) => {
+aapp.use((req, res, next) => {
   const origin = req.get("origin");
 
   const allowedOrigins = [
+    "https://www.mantosagrado00.com.br",
+    "https://mantosagrado00.com.br",
+    "https://juninhods.github.io",
     FRONTEND_ORIGIN,
     "http://localhost:3000",
     "http://127.0.0.1:5500",
@@ -36,9 +39,17 @@ app.use((req, res, next) => {
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   }
+
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS"
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
 
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
@@ -46,7 +57,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
 /* =========================================================
    ARQUIVOS DO SITE
 ========================================================= */
