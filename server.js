@@ -24,7 +24,7 @@ app.use(express.json({ limit: "100kb" }));
    CORS
 ========================================================= */
 
-aapp.use((req, res, next) => {
+app.use((req, res, next) => {
   const origin = req.get("origin");
 
   const allowedOrigins = [
