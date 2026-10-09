@@ -23,8 +23,11 @@ const data = {
           "Corinthians": {
             img: "imagens/times/corinthians.png",
             camisas: [
-              { nome: "Corinthians Home 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/cor-home26.jpg" },
-              { nome: "Corinthians Away 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/cor-away26.jpg" },
+              { nome: "Corinthians Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/cor-home26.jpg" },
+              { nome: "Corinthians Home 2026 (Feminina)", preco: "R$ 130", img: "imagens/camisas/cor-homef26.jpg" },
+              { nome: "Corinthians Away 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/cor-away26.jpg" },
+              { nome: "Corinthians Away 2026 (Feminina)", preco: "R$ 130", img: "imagens/camisas/cor-awayf26.jpg" },
+              { nome: "Corinthians Third 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/cor-third26.jpg" },
               { nome: "Corinthians Total 90 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/cor-total90.jpg" },
               { nome: "Corinthians Treino", preco: "R$ 120", img: "imagens/camisas/cor-treino.jpg" },
               { nome: "Corinthians Treino 2026", preco: "R$ 120", img: "imagens/camisas/cor-treino261.jpg" },
@@ -51,6 +54,7 @@ const data = {
             camisas: [
               { nome: "Santos  Home 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-home26.jpg" },
               { nome: "Santos  Away 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-away26.jpg" },
+              { nome: "Santos  Third 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-third26.jpg" },
               { nome: "Santos  CBJR (Torcedor)", preco: "R$ 150", img: "imagens/camisas/san-cbjr.jpg" },
               { nome: "Santos  Home 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-b2012.jpg" },
               { nome: "Santos  Away 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-a2012.jpg" }
@@ -85,7 +89,8 @@ const data = {
             img: "imagens/times/vasco.png",
             camisas: [
               { nome: "Vasco Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/vasco-home26.jpg" },
-              { nome: "Vasco Away 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/vasco-away26.jpg" }
+              { nome: "Vasco Away 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/vasco-away26.jpg" },
+               { nome: "Vasco Third 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/vasco-third26.jpg" }
             
             ]
           },
@@ -419,6 +424,7 @@ const data = {
             img: "imagens/times/lyon.png",
             camisas: [
               { nome: "Lyon Home 2026/27 (Torcedor)", preco: "R$ 120", img: "imagens/camisas/lyon-home26.jpg" },
+               { nome: "Lyon Third 2026/27 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/lyon-third26.jpg" },
               
 
             ]
