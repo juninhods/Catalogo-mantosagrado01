@@ -55,7 +55,6 @@ const data = {
               { nome: "Santos  Home 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-home26.jpg" },
               { nome: "Santos  Away 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-away26.jpg" },
               { nome: "Santos  Third 2026 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/san-third26.jpg" },
-              { nome: "Santos  CBJR (Torcedor)", preco: "R$ 150", img: "imagens/camisas/san-cbjr.jpg" },
               { nome: "Santos  Home 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-b2012.jpg" },
               { nome: "Santos  Away 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/san-a2012.jpg" }
             ]
@@ -911,10 +910,9 @@ const CONFIG = {
   ]
 };
 const camisasMaisVendidas = [
-  { nome: "Corinthians Home 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/cor-home26.jpg" },
+  { nome: "Corinthians Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/cor-home26.jpg" },
   { nome: "Flamengo Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/fla-home26.jpg" },
   { nome: "Palmeiras Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/pal-home26.jpg" },
-  { nome: "Santos  CBJR (Torcedor)", preco: "R$ 150", img: "imagens/camisas/san-cbjr.jpg" },
   { nome: "Brasil Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/brasil-home26.jpg" },
   { nome: "São Paulo  Home 2026 (Torcedor)", preco: "R$ 130", img: "imagens/camisas/sp-home26.jpg" },
 ];
