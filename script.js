@@ -31,7 +31,7 @@ const data = {
               { nome: "Corinthians Total 90 (Torcedor)", preco: "R$ 140", img: "imagens/camisas/cor-total90.jpg" },
               { nome: "Corinthians Treino", preco: "R$ 120", img: "imagens/camisas/cor-treino.jpg" },
               { nome: "Corinthians Treino 2026", preco: "R$ 120", img: "imagens/camisas/cor-treino261.jpg" },
-              { nome: "Corinthians All Black (Torcedor)", preco: "R$ 120", img: "imagens/camisas/cor-allblack.jpg" },
+              { nome: "Corinthians All Black (Jogador)", preco: "R$ 150", img: "imagens/camisas/cor-allblackj.jpg" },
               { nome: "Corinthians São Jorge (Retrô)", preco: "R$ 150", img: "imagens/camisas/cor-jorge.jpg" },
               { nome: "Corinthians 2012 (Retrô)", preco: "R$ 150", img: "imagens/camisas/cor-2012.jpg" },
               { nome: "Corinthians 2006 Total 90 (Retrô)", preco: "R$ 150", img: "imagens/camisas/cor-2006.jpg" },
@@ -277,7 +277,7 @@ const data = {
             img: "imagens/times/barcelona.png",
             camisas: [
               { nome: "Barcelona Home 2026 (Torcedor)", preco: "R$ 120", img: "imagens/camisas/barca-home26.jpg" },
-               { nome: "Barcelona x Kobe Bryant 2026 (Torcedor)", preco: "R$ 120", img: "imagens/camisas/barca-kobe26.jpg" },
+               { nome: "Barcelona x Kobe Bryant 2026 (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-kobe26.jpg" },
               { nome: "Barcelona Home 15/16 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto16.jpg" },
               { nome: "Barcelona Home 14/15 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto15.jpg" },
               { nome: "Barcelona Away 07/08 Retrô (Torcedor)", preco: "R$ 150", img: "imagens/camisas/barca-rto08.jpg" },
